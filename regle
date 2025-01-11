@@ -28,8 +28,30 @@
         h1, h2 {
             color: #343a40;
         }
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            width: calc(100% - 100px);
+            margin-right: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .search-bar button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .search-bar button:hover {
+            background-color: #0056b3;
+        }
         .game-entry {
             margin-bottom: 20px;
+            display: none;
         }
         .game-entry input, .game-entry textarea {
             width: 100%;
@@ -66,7 +88,12 @@
         <h1>Règles de Jeux de Société</h1>
     </header>
     <main>
-        <section class="game-entry">
+        <section class="search-bar">
+            <input type="text" id="searchGame" placeholder="Rechercher un jeu...">
+            <button onclick="searchRules()">Rechercher</button>
+            <button onclick="toggleAddRuleForm()">Ajouter des règles</button>
+        </section>
+        <section class="game-entry" id="addRuleForm">
             <h2>Ajouter une nouvelle règle</h2>
             <input type="text" id="gameName" placeholder="Nom du jeu">
             <textarea id="gameRules" rows="5" placeholder="Entrez les règles ici..."></textarea>
@@ -80,22 +107,44 @@
         </section>
     </main>
     <script>
+        const rulesDatabase = [];
+
+        function toggleAddRuleForm() {
+            const form = document.getElementById('addRuleForm');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+        }
+
         function addRule() {
             const gameName = document.getElementById('gameName').value;
             const gameRules = document.getElementById('gameRules').value;
 
             if (gameName.trim() === '' || gameRules.trim() === '') {
-                alert('Veuillez remplir tous les champs avant d'ajouter une règle.');
+                alert('Veuillez remplir tous les champs avant d\'ajouter une règle.');
                 return;
             }
 
-            const ruleItem = document.createElement('li');
-            ruleItem.innerHTML = `<strong>${gameName}</strong><p>${gameRules}</p>`;
-
-            document.getElementById('rulesList').appendChild(ruleItem);
-
+            rulesDatabase.push({ name: gameName.toLowerCase(), rules: gameRules });
             document.getElementById('gameName').value = '';
             document.getElementById('gameRules').value = '';
+            alert('Règle ajoutée avec succès !');
+        }
+
+        function searchRules() {
+            const searchQuery = document.getElementById('searchGame').value.toLowerCase();
+            const rulesList = document.getElementById('rulesList');
+            rulesList.innerHTML = '';
+
+            const filteredRules = rulesDatabase.filter(rule => rule.name.includes(searchQuery));
+
+            if (filteredRules.length === 0) {
+                rulesList.innerHTML = '<li>Aucune règle trouvée pour ce jeu.</li>';
+            } else {
+                filteredRules.forEach(rule => {
+                    const ruleItem = document.createElement('li');
+                    ruleItem.innerHTML = `<strong>${rule.name}</strong><p>${rule.rules}</p>`;
+                    rulesList.appendChild(ruleItem);
+                });
+            }
         }
     </script>
 </body>
