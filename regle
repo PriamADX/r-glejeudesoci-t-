@@ -107,7 +107,7 @@
         </section>
     </main>
     <script>
-        const rulesDatabase = [];
+        let rulesDatabase = JSON.parse(localStorage.getItem('rulesDatabase')) || [];
 
         function toggleAddRuleForm() {
             const form = document.getElementById('addRuleForm');
@@ -124,10 +124,11 @@
             }
 
             rulesDatabase.push({ name: gameName.toLowerCase(), rules: gameRules });
+            localStorage.setItem('rulesDatabase', JSON.stringify(rulesDatabase));
             document.getElementById('gameName').value = '';
             document.getElementById('gameRules').value = '';
             alert('Règle ajoutée avec succès !');
-            displayRules(rulesDatabase); // Met à jour l'affichage
+            displayRules(rulesDatabase);
         }
 
         function searchRules() {
@@ -150,7 +151,13 @@
                 });
             }
         }
+
+        // Charger les règles lors du chargement de la page
+        window.onload = function() {
+            displayRules(rulesDatabase);
+        };
     </script>
 </body>
 </html>
+
 
