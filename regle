@@ -127,19 +127,23 @@
             document.getElementById('gameName').value = '';
             document.getElementById('gameRules').value = '';
             alert('Règle ajoutée avec succès !');
+            displayRules(rulesDatabase); // Met à jour l'affichage
         }
 
         function searchRules() {
             const searchQuery = document.getElementById('searchGame').value.toLowerCase();
+            const filteredRules = rulesDatabase.filter(rule => rule.name.includes(searchQuery));
+            displayRules(filteredRules);
+        }
+
+        function displayRules(rules) {
             const rulesList = document.getElementById('rulesList');
             rulesList.innerHTML = '';
 
-            const filteredRules = rulesDatabase.filter(rule => rule.name.includes(searchQuery));
-
-            if (filteredRules.length === 0) {
+            if (rules.length === 0) {
                 rulesList.innerHTML = '<li>Aucune règle trouvée pour ce jeu.</li>';
             } else {
-                filteredRules.forEach(rule => {
+                rules.forEach(rule => {
                     const ruleItem = document.createElement('li');
                     ruleItem.innerHTML = `<strong>${rule.name}</strong><p>${rule.rules}</p>`;
                     rulesList.appendChild(ruleItem);
@@ -149,3 +153,4 @@
     </script>
 </body>
 </html>
+
