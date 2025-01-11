@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Règles de Jeux de Société</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            color: #343a40;
+        }
+        .game-entry {
+            margin-bottom: 20px;
+        }
+        .game-entry input, .game-entry textarea {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .game-entry button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .game-entry button:hover {
+            background-color: #218838;
+        }
+        .rules-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .rules-list li {
+            background: #f1f1f1;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Règles de Jeux de Société</h1>
+    </header>
+    <main>
+        <section class="game-entry">
+            <h2>Ajouter une nouvelle règle</h2>
+            <input type="text" id="gameName" placeholder="Nom du jeu">
+            <textarea id="gameRules" rows="5" placeholder="Entrez les règles ici..."></textarea>
+            <button onclick="addRule()">Ajouter</button>
+        </section>
+        <section class="rules-list-section">
+            <h2>Liste des règles</h2>
+            <ul id="rulesList" class="rules-list">
+                <!-- Les règles seront ajoutées ici -->
+            </ul>
+        </section>
+    </main>
+    <script>
+        function addRule() {
+            const gameName = document.getElementById('gameName').value;
+            const gameRules = document.getElementById('gameRules').value;
+
+            if (gameName.trim() === '' || gameRules.trim() === '') {
+                alert('Veuillez remplir tous les champs avant d'ajouter une règle.');
+                return;
+            }
+
+            const ruleItem = document.createElement('li');
+            ruleItem.innerHTML = `<strong>${gameName}</strong><p>${gameRules}</p>`;
+
+            document.getElementById('rulesList').appendChild(ruleItem);
+
+            document.getElementById('gameName').value = '';
+            document.getElementById('gameRules').value = '';
+        }
+    </script>
+</body>
+</html>
